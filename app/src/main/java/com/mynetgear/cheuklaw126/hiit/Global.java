@@ -24,7 +24,7 @@ public class Global extends Application implements Serializable  {
 
     public String LastLoginTIme;
 
-    
+
     public Global(int uid, String userName, String pw, String firstName, String lastName, String lastLoginTIme) {
         Uid=uid;
         UserName = userName;
