@@ -1,5 +1,7 @@
 package com.mynetgear.cheuklaw126.hiit;
 
+import android.app.Application;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +14,7 @@ import java.util.concurrent.ExecutionException;
  * Created by Kenneth on 27/2/2018.
  */
 
-public class Global implements Serializable {
+public class Global extends Application implements Serializable  {
     public String UserName, pw, FirstName, LastName;
     public int Uid;
     IOObject io;

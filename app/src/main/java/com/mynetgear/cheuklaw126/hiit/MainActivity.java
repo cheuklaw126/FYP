@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        global = (Global) getIntent().getSerializableExtra("global");
+        global = (Global)getApplicationContext();
         vdo = (VideoView) findViewById(R.id.videoView2);
         Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bg2);
         vdo.setVideoURI(uri);

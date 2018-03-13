@@ -1,18 +1,16 @@
 package com.mynetgear.cheuklaw126.hiit;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
@@ -49,9 +47,16 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (jsonArray.length() > 0) {
                         Toast.makeText(getApplicationContext(), "Log in Success", Toast.LENGTH_SHORT).show();
+                            Global global = (Global)getApplicationContext();
+                            global.Uid =data.getInt("uid");
+                            global.UserName =data.getString("uname");
+                            global.FirstName =data.getString("firstName");
+                            global.LastName =data.getString("lastName");
+                            global.pw =data.getString("password");
+
 
                         Intent intent = new Intent();
-                            intent.putExtra("global",new Global(data.getInt("uid"), acc,pwd,data.getString("firstName"),data.getString("lastName"), LocalDateTime.now().toString()));
+//                            intent.putExtra("global",new Global(data.getInt("uid"), acc,pwd,data.getString("firstName"),data.getString("lastName"), LocalDateTime.now().toString()));
 
                             intent.setClass(LoginActivity.this  , MainActivity.class);
                         startActivity(intent);
