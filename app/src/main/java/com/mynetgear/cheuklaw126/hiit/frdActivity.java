@@ -19,7 +19,6 @@ public class frdActivity extends AppCompatActivity {
     ListView frdListView;
     ArrayList<JSONObject> frdList;
     private ListView listView;
-    private SimpleAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,18 +44,15 @@ public class frdActivity extends AppCompatActivity {
 
 
 
-        adapter = new SimpleAdapter(this, getData(),
-                R.layout.activity_frd,
-                new String[] { "title", "info", "img" },
-                new int[] {	R.id.title, R.id.info, R.id.img });
-        listView.setAdapter(adapter);
+
+        listView.setAdapter(new frdAdapter(this,frdList));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ListView listView = (ListView) parent;
             }
         });
-      
+
 
 
 

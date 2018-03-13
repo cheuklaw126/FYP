@@ -26,13 +26,14 @@ public class MainActivity extends AppCompatActivity
     TextView ac, lastname;
     Global global;
     VideoView vdo;
+    ImageView pIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        global = (Global)getApplicationContext();
+        global = (Global) getApplicationContext();
         vdo = (VideoView) findViewById(R.id.videoView2);
         Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bg2);
         vdo.setVideoURI(uri);
@@ -43,6 +44,12 @@ public class MainActivity extends AppCompatActivity
             }
         });
         vdo.start();
+
+        pIcon = (ImageView) findViewById(R.id.pIcon);
+
+        global.SetImage(pIcon, global.src);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -126,11 +133,11 @@ public class MainActivity extends AppCompatActivity
         fd.setVisibility(View.INVISIBLE);
        indexView.setVisibility(View.INVISIBLE);*/
         Intent intent = new Intent();
-        intent.putExtra("global",global);
+        intent.putExtra("global", global);
 
         switch (id) {
             case R.id.frd:
-                intent.setClass(MainActivity.this  , frdActivity.class);
+                intent.setClass(MainActivity.this, frdActivity.class);
                 break;
             default:
                 break;

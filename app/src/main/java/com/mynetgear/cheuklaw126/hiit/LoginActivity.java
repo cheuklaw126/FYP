@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class LoginActivity extends AppCompatActivity {
     EditText ac, pw;
     Button btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String acc = ac.getText().toString();
-                acc= acc.toLowerCase();
+                acc = acc.toLowerCase();
                 String pwd = pw.getText().toString();
                 String query = String.format("select * from pData where uname ='%s' and password='%s'", acc, pwd);
                 final ArrayList<String> querys = new ArrayList<String>();
@@ -40,25 +41,23 @@ public class LoginActivity extends AppCompatActivity {
                     io.Start();
                     JSONObject jobj = io.getReturnObject();
                     JSONArray jsonArray = io.getReturnObject().getJSONArray("data");
-               JSONObject data=     jsonArray.getJSONObject(0);
+                    JSONObject data = jsonArray.getJSONObject(0);
 
 
-
-
-                        if (jsonArray.length() > 0) {
+                    if (jsonArray.length() > 0) {
                         Toast.makeText(getApplicationContext(), "Log in Success", Toast.LENGTH_SHORT).show();
-                            Global global = (Global)getApplicationContext();
-                            global.Uid =data.getInt("uid");
-                            global.UserName =data.getString("uname");
-                            global.FirstName =data.getString("firstName");
-                            global.LastName =data.getString("lastName");
-                            global.pw =data.getString("password");
-
+                        Global global = (Global) getApplicationContext();
+                        global.Uid = data.getInt("uid");
+                        global.UserName = data.getString("uname");
+                        global.FirstName = data.getString("firstName");
+                        global.LastName = data.getString("lastName");
+                        global.pw = data.getString("password");
+                        global.src = data.getString("src");
 
                         Intent intent = new Intent();
 //                            intent.putExtra("global",new Global(data.getInt("uid"), acc,pwd,data.getString("firstName"),data.getString("lastName"), LocalDateTime.now().toString()));
 
-                            intent.setClass(LoginActivity.this  , MainActivity.class);
+                        intent.setClass(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
 
                         LoginActivity.this.finish();

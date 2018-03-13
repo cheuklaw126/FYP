@@ -11,7 +11,7 @@
         android:src="@drawable/logo"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:id="@+id/img"></ImageView>
+        android:id="@+id/src"></ImageView>
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
@@ -21,12 +21,12 @@
             android:text="TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/title"></TextView>
+            android:id="@+id/LastName"></TextView>
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="TextView"
-            android:id="@+id/info"></TextView>
+            android:id="@+id/uid"></TextView>
     </LinearLayout>
 </LinearLayout>
 
