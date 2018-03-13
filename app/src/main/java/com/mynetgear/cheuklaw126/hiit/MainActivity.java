@@ -45,9 +45,7 @@ public class MainActivity extends AppCompatActivity
         });
         vdo.start();
 
-        pIcon = (ImageView) findViewById(R.id.pIcon);
 
-        global.SetImage(pIcon, global.src);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -93,7 +91,9 @@ public class MainActivity extends AppCompatActivity
         ImageView imageView = (ImageView) findViewById(R.id.imageView);
         ac.setText(global.UserName);
         lastname.setText(global.LastName);
+        pIcon = (ImageView) findViewById(R.id.pIcon);
 
+        global.SetImage(pIcon, global.src);
 
         return true;
     }
