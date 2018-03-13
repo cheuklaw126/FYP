@@ -6,7 +6,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import org.json.JSONObject;
 
@@ -16,7 +18,8 @@ public class frdActivity extends AppCompatActivity {
     Global global;
     ListView frdListView;
     ArrayList<JSONObject> frdList;
-
+    private ListView listView;
+    private SimpleAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,29 @@ public class frdActivity extends AppCompatActivity {
 
         global.SetFrdList(global.UserName);
         frdList = global.fdList;
+        listView = (ListView) findViewById(R.id.ListFrd);
+
+
+
+
+        adapter = new SimpleAdapter(this, getData(),
+                R.layout.activity_frd,
+                new String[] { "title", "info", "img" },
+                new int[] {	R.id.title, R.id.info, R.id.img });
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListView listView = (ListView) parent;
+            }
+        });
+      
+
+
+
+
+
+
 
     }
 }
