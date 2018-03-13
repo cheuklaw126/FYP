@@ -26,8 +26,8 @@ import java.util.ArrayList;
 
 
 public class ExercisePage extends AppCompatActivity {
-//public String vl="";
-//public String storeVL="";
+    Global global;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -36,7 +36,9 @@ public class ExercisePage extends AppCompatActivity {
         //Button lastRedo = (Button) findViewById(R.id.lastRedo);
         Button previousVideo = (Button) findViewById(R.id.previousVideo);
         Button nextVideo = (Button) findViewById(R.id.nextVideo);
+        global = (Global) getIntent().getSerializableExtra("global");
         getExData();
+
         previousVideo.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +84,9 @@ public class ExercisePage extends AppCompatActivity {
 
     private void getExData() {
         String userID = getSharedPreferences("user", MODE_PRIVATE)
-                .getString("UID", "");
+                .getString("global.Uid", "");
+
+        gExHIS=global.GetExerciseHistory(global.Uid);
         //String userName = getSharedPreferences("user", MODE_PRIVATE)
                // .getString("NAME", "");
         //String PW = getSharedPreferences("user", MODE_PRIVATE)
@@ -90,35 +94,35 @@ public class ExercisePage extends AppCompatActivity {
         //String userID = String.valueOf(1);
 
         //Toast.makeText(getApplicationContext(), "data got " + userID + " " + userName + " " + PW , Toast.LENGTH_LONG).show();
-        String query = String.format("select * from exeriseHistory where uID =%s ", userID);
-        final ArrayList<String> querys = new ArrayList<String>();
-        querys.add(query);
-        IOObject io = null;
-        try {
-            io = new IOObject("ExecuteReader", querys);
-            io.Start();
-            JSONObject jobj = io.getReturnObject();
-            JSONArray jsonArray =io.getReturnObject().getJSONArray("data");
-            JSONObject eh=jsonArray.getJSONObject(0);
-            String lastD = eh.getString("createDate");
-            String lastT= eh.getString("totTime");
-            String cc = eh.getString("caloriesCal");
-            String hr = eh.getString("heartRate");
-            String eg = eh.getString("exGain");
-            String com = eh.getString("isComplete");
-            String vid = eh.getString("vid");
-            String queryV = String.format("select * from movie where vid =%s ",vid);
+        //String query = String.format("select * from exeriseHistory where uID =%s ", userID);
+        //final ArrayList<String> querys = new ArrayList<String>();
+        //querys.add(query);
+       // IOObject io = null;
+       // try {
+           // io = new IOObject("ExecuteReader", querys);
+           // io.Start();
+           // JSONObject jobj = io.getReturnObject();
+          //  JSONArray jsonArray =io.getReturnObject().getJSONArray("data");
+          //  JSONObject eh=jsonArray.getJSONObject(0);
+           /// String lastD = eh.getString("createDate");
+            //String lastT= eh.getString("totTime");
+            //String cc = eh.getString("caloriesCal");
+           // String hr = eh.getString("heartRate");
+           // String eg = eh.getString("exGain");
+          //  String com = eh.getString("isComplete");
+          //  String vid = eh.getString("vid");
+           // String queryV = String.format("select * from movie where vid =%s ",vid);
 
-            final ArrayList<String> queryvs = new ArrayList<String>();
-            queryvs.add(queryV);
-            io = new IOObject("ExecuteReader", queryvs);
-            io.Start();
-            JSONObject vjobj = io.getReturnObject();
-            JSONArray vjsonArray =io.getReturnObject().getJSONArray("data");
-            JSONObject veh=vjsonArray.getJSONObject(0);
-            String vn = veh.getString("vname");
-            String link = veh.getString("link");
-            String desc= veh.getString("description");
+         //   final ArrayList<String> queryvs = new ArrayList<String>();
+          //  queryvs.add(queryV);
+          //  io = new IOObject("ExecuteReader", queryvs);
+          //  io.Start();
+          //  JSONObject vjobj = io.getReturnObject();
+          //  JSONArray vjsonArray =io.getReturnObject().getJSONArray("data");
+          //  JSONObject veh=vjsonArray.getJSONObject(0);
+           // String vn = veh.getString("vname");
+          //  String link = veh.getString("link");
+           // String desc= veh.getString("description");
 
             //YouTubeContent ytc= new YouTubeContent();
             //ytc.setLink(link);

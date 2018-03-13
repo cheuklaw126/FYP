@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 
 public class Global implements Serializable {
     public String UserName, pw, FirstName, LastName;
+    public int Uid;
     IOObject io;
     ArrayList<JSONObject> fdList;
     public Global() {
@@ -21,7 +22,8 @@ public class Global implements Serializable {
 
     public String LastLoginTIme;
 
-    public Global(String userName, String pw, String firstName, String lastName, String lastLoginTIme) {
+    public Global(int uid, String userName, String pw, String firstName, String lastName, String lastLoginTIme) {
+        Uid=uid;
         UserName = userName;
         this.pw = pw;
         FirstName = firstName;
@@ -79,5 +81,50 @@ fdList.clear();
         }
 
         return false;
+    }
+
+    public void GetExerciseHistory(int uid){
+
+        String query = String.format("select * from exeriseHistory where uID =%s ",uid);
+        final ArrayList<String> querys = new ArrayList<String>();
+        querys.add(query);
+        try {
+            io = new IOObject("ExecuteReader", querys);
+            io.Start();
+            JSONObject jobj = io.getReturnObject();
+            JSONArray jsonArray = io.getReturnObject().getJSONArray("data");
+            JSONObject eh=jsonArray.getJSONObject(0);
+            String lastD = eh.getString("createDate");
+            String lastT= eh.getString("totTime");
+            String cc = eh.getString("caloriesCal");
+            String hr = eh.getString("heartRate");
+            String eg = eh.getString("exGain");
+            String com = eh.getString("isComplete");
+            String vid = eh.getString("vid");
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void GetVideo(int vid){
+
+        String queryV = String.format("select * from movie where vid =%s ",vid);
+
+        final ArrayList<String> queryvs = new ArrayList<String>();
+        queryvs.add(queryV);
+        try{
+        io = new IOObject("ExecuteReader", queryvs);
+        io.Start();
+        JSONObject vjobj = io.getReturnObject();
+        JSONArray vjsonArray =io.getReturnObject().getJSONArray("data");
+        JSONObject veh=vjsonArray.getJSONObject(0);
+        String vn = veh.getString("vname");
+        String link = veh.getString("link");
+        String desc= veh.getString("description");
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }
