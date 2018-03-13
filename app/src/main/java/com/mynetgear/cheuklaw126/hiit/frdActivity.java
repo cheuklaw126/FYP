@@ -8,16 +8,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ListView;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 public class frdActivity extends AppCompatActivity {
     Global global;
     ListView frdListView;
+    ArrayList<JSONObject> frdList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_frd);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,11 +32,11 @@ public class frdActivity extends AppCompatActivity {
             }
         });
 
-        frdListView= (ListView)findViewById(R.id.frdList) ;
+        frdListView = (ListView) findViewById(R.id.frdList);
         global = (Global) getIntent().getSerializableExtra("global");
 
-
-        global.GetFrdList(global.UserName);
+        global.SetFrdList(global.UserName);
+        frdList = global.fdList;
 
     }
 }

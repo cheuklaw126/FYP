@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutionException;
 public class Global implements Serializable {
     public String UserName, pw, FirstName, LastName;
     IOObject io;
-    ArrayList fdList;
+    ArrayList<JSONObject> fdList;
     public Global() {
     }
 
@@ -30,7 +30,7 @@ public class Global implements Serializable {
 
     }
 
-    public void GetFrdList(String uid){
+    public void SetFrdList(String uid){
 fdList.clear();
         String query = String.format("SELECT * FROM fdList join pData on fdList.uid = pData.uid where uid='%s'",uid);
         final ArrayList<String> querys = new ArrayList<String>();
