@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Log in Success", Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent();
-                            intent.putExtra("global",new Global(acc,pwd,data.getString("firstName"),data.getString("lastName"), LocalDateTime.now().toString()));
+                            intent.putExtra("global",new Global(data.getInt("uid"), acc,pwd,data.getString("firstName"),data.getString("lastName"), LocalDateTime.now().toString()));
 
                             intent.setClass(LoginActivity.this  , MainActivity.class);
                         startActivity(intent);

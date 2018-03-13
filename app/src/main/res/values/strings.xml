@@ -13,6 +13,7 @@
     <string name="logout">Logout</string>
     <string name="title_activity_friend_list">FriendListActivity</string>
     <string name="large_text">
+    <string name="error_init_failure">Can\'t play the video</string>
         "Material is the metaphor.\n\n"
 
         "A material metaphor is the unifying theory of a rationalized space and a system of motion."
