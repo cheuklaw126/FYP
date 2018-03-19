@@ -6,18 +6,25 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class frdActivity extends AppCompatActivity {
     Global global;
     ListView frdListView;
+    ArrayList<JSONObject> frdList;
+    private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_frd);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,11 +34,31 @@ public class frdActivity extends AppCompatActivity {
             }
         });
 
-        frdListView= (ListView)findViewById(R.id.frdList) ;
+        frdListView = (ListView) findViewById(R.id.frdList);
         global = (Global) getIntent().getSerializableExtra("global");
 
+        global.SetFrdList(global.UserName);
+        frdList = global.fdList;
+        listView = (ListView) findViewById(R.id.ListFrd);
 
-        global.GetFrdList(global.UserName);
+
+
+
+
+        listView.setAdapter(new frdAdapter(this,frdList));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListView listView = (ListView) parent;
+            }
+        });
+
+
+
+
+
+
+
 
     }
 }

@@ -8,22 +8,25 @@
 
 
     <ImageView
-        android:id="@+id/fdIcon"
-        android:layout_width="wrap_content"
+        android:src="@drawable/logo"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:adjustViewBounds="false"
-        android:layout_margin="20dp"
-        android:layout_gravity="center"
-
-        app:srcCompat="@drawable/logo" />
-
-    <TextView
-        android:id="@+id/fdName"
         android:layout_width="wrap_content"
+        android:id="@+id/src"></ImageView>
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_weight="1"
-        android:text="TextView" />
+        android:orientation="vertical">
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/LastName"></TextView>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="TextView"
+            android:id="@+id/uid"></TextView>
+    </LinearLayout>
 </LinearLayout>
 
