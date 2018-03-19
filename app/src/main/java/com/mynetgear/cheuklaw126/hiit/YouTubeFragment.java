@@ -78,7 +78,7 @@ public class YouTubeFragment extends YouTubePlayerSupportFragment implements You
             youTubeInitializationResult.getErrorDialog(getActivity(), RECOVERY_DIALOG_REQUEST).show();
         } else {
             //Handle the failure
-            Toast.makeText(getActivity(), R.string.error_init_failure, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Can\\'t play the video", Toast.LENGTH_LONG).show();
         }
     }
 

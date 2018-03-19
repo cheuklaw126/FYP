@@ -27,6 +27,7 @@ public class VideoListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setListAdapter(new VideoListAdapter(getActivity()));
+
     }
 
     @Override

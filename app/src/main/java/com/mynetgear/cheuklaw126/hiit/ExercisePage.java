@@ -86,7 +86,8 @@ public class ExercisePage extends AppCompatActivity {
         String userID = getSharedPreferences("user", MODE_PRIVATE)
                 .getString("global.Uid", "");
 
-        gExHIS=global.GetExerciseHistory(global.Uid);
+       // global.GetExerciseHistory(global.Uid);
+        global.GetVideo(global.vid);
         //String userName = getSharedPreferences("user", MODE_PRIVATE)
                // .getString("NAME", "");
         //String PW = getSharedPreferences("user", MODE_PRIVATE)
@@ -128,42 +129,46 @@ public class ExercisePage extends AppCompatActivity {
             //ytc.setLink(link);
             //YouTubeVideo ytv= new YouTubeVideo(link, desc);
             //ytv.YouTubeVideo(link,desc);
+        if (global.compEx>0) {
             SharedPreferences storeUN = getApplicationContext().getSharedPreferences("user", 0); // 0 - for private mode
             SharedPreferences.Editor editor = storeUN.edit();
-            editor.putString("VID", vid)
-                    .putString("LINK", link)
-                    .putString("DESC",desc)
+            editor.putString("VID", String.valueOf(global.vid))
+                    .putString("LINK", global.link)
+                    .putString("DESC", global.desc)
                     .commit(); //store videoID , link,description
             String storeLink = getSharedPreferences("user", MODE_PRIVATE)
-            .getString("LINK", "");
+                    .getString("LINK", "");
             System.out.println(" storelink = " + storeLink);
-           // storeVL=storeLink;
-           //// System.out.println("storeVL = "+storeVL);
-           // putLink();
-            TextView showTEXT = (TextView)findViewById(R.id.lastDT);
-            showTEXT.setText(lastD);
+            // storeVL=storeLink;
+            //// System.out.println("storeVL = "+storeVL);
+            // putLink();
+            TextView showTEXT = (TextView) findViewById(R.id.lastDT);
+            showTEXT.setText(global.lastD);
 
-            TextView complete = (TextView)findViewById(R.id.comYN);
-            complete.setText(com);
+            TextView complete = (TextView) findViewById(R.id.comYN);
+            complete.setText(global.com);
 
-            TextView exN = (TextView)findViewById(R.id.exName);
-            exN.setText(vn);
+            TextView exN = (TextView) findViewById(R.id.exName);
+            exN.setText(global.vn);
 
-            TextView doT = (TextView)findViewById(R.id.dotime);
-            doT.setText(lastT);
+            TextView doT = (TextView) findViewById(R.id.dotime);
+            doT.setText(global.lastT);
 
-            TextView ccal = (TextView)findViewById(R.id.CalBurn);
-            ccal.setText(cc);
+            TextView ccal = (TextView) findViewById(R.id.CalBurn);
+            ccal.setText(global.cc);
 
-            TextView shr = (TextView)findViewById(R.id.heartRate);
-            shr.setText(hr);
+            TextView shr = (TextView) findViewById(R.id.heartRate);
+            shr.setText(global.hr);
 
-            TextView exG = (TextView)findViewById(R.id.exGain);
-            exG.setText(eg);
+            TextView exG = (TextView) findViewById(R.id.exGain);
+            exG.setText(global.eg);
+        }else{
+
+        }
             //Toast.makeText(getApplicationContext(), "link =" + link, Toast.LENGTH_LONG).show();
 
             //Toast.makeText(getApplicationContext(), "content link =" + vl, Toast.LENGTH_LONG).show();
-            if (jsonArray.length() > 0) {
+            //if (jsonArray.length() > 0) {
 
                 //String exdata=jsonArray.getString(1);
                // Toast.makeText(getApplicationContext(), "data got " + exdata, Toast.LENGTH_LONG).show();
@@ -171,16 +176,16 @@ public class ExercisePage extends AppCompatActivity {
                 //intent.setClass(LoginActivity.this, HiitMain.class);
                 //startActivity(intent);
 
-            } else {
-                Toast.makeText(getApplicationContext(), "no data get", Toast.LENGTH_LONG).show();
+            //} else {
+                //Toast.makeText(getApplicationContext(), "no data get", Toast.LENGTH_LONG).show();
                 //Intent intent = new Intent();
                 //intent.setClass(LoginActivity.this, LoginActivity.class);
                 //startActivity(intent);
 
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            //}
+        //} catch (Exception e) {
+            //e.printStackTrace();
+        //}
 
 
 
