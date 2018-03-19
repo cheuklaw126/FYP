@@ -12,7 +12,7 @@
         android:id="@+id/imageView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/signin" />
+        android:background="@drawable/bg0" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,30 +25,36 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="User ID"
+            android:textColorHint="#FFFFFF"
             android:inputType="textPersonName"
+            android:selectAllOnFocus="false"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/acMsg"
+            android:textColorHint="#FFFFFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <EditText
             android:id="@+id/pwd"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Password"
+            android:textColorHint="#FFFFFF"
             android:inputType="textPassword"
             app:layout_constraintTop_toBottomOf="@+id/radioGroup"
             tools:ignore="MissingConstraints" />
 
         <EditText
             android:id="@+id/pwd2"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:textColorHint="#FFFFFF"
             android:ems="10"
             android:hint="Password-Confirm"
             android:inputType="textPassword"
@@ -58,22 +64,26 @@
 
         <TextView
             android:id="@+id/pwdMsg"
+            android:textColorHint="#FFFFFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <EditText
             android:id="@+id/fname"
+            android:textColorHint="#FFFFFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:ems="10"
             android:hint="First Name"
+
             android:inputType="textPersonName"
             app:layout_constraintTop_toBottomOf="@+id/uid"
             tools:ignore="MissingConstraints" />
 
         <EditText
             android:id="@+id/lname"
+            android:textColorHint="#FFFFFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -85,17 +95,19 @@
             android:id="@+id/radioGroup"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            android:textColorHint="#FFFFFF"
             app:layout_constraintTop_toBottomOf="@+id/lname"
             tools:ignore="MissingConstraints">
 
             <RadioButton
+                android:textColorHint="#FFFFFF"
                 android:id="@+id/rm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Male" />
 
             <RadioButton
+                android:textColorHint="#FFFFFF"
                 android:id="@+id/rf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -104,6 +116,7 @@
         </RadioGroup>
 
         <EditText
+            android:textColorHint="#FFFFFF"
             android:id="@+id/edit_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,6 +130,7 @@
             tools:layout_editor_absoluteX="8dp" />
 
         <EditText
+            android:textColorHint="#FFFFFF"
             android:id="@+id/edit_height"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -132,17 +146,18 @@
     </LinearLayout>
 
     <Button
+
         android:id="@+id/btn1"
+        style="@style/Widget.AppCompat.Button.Colored"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:text="@string/register"
 
+        android:layout_weight="1"
+        android:background="@drawable/roundedbutton"
+        android:text="@string/register"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_weight"
-        app:layout_constraintVertical_bias="1.0"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="8dp" />
 

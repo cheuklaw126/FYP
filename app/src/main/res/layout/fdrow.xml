@@ -1,32 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:name="com.mynetgear.cheuklaw126.hiit.ExercisePage"
     android:orientation="horizontal">
-
 
     <ImageView
         android:src="@drawable/logo"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:id="@+id/src"></ImageView>
+        android:id="@+id/src"
+        tools:ignore="ContentDescription"></ImageView>
+
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             android:text="TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/LastName"></TextView>
+            android:id="@+id/LastName"
+            tools:ignore="HardcodedText"></TextView>
+
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="TextView"
             android:id="@+id/uid"></TextView>
-    </LinearLayout>
-</LinearLayout>
 
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+
+        app:backgroundTint="@color/pink"
+        app:srcCompat="@android:drawable/stat_notify_more" />
+
+
+</LinearLayout>
