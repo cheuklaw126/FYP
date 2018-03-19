@@ -3,19 +3,15 @@ package com.mynetgear.cheuklaw126.hiit;
 import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -30,8 +26,12 @@ public class IOObject extends Application {
     private ArrayList<String> querys;
     private JSONObject sendObject;
     private JSONObject ReturnObject;
-
+private AsyncTask.Status IOStatus;
     public IOObject() {
+    }
+
+    public AsyncTask.Status getIOStatus(){
+        return this.IOStatus;
     }
 
     public String getAction() {
@@ -103,6 +103,12 @@ public class IOObject extends Application {
             }
         }
         this.setReturnObject(adapter.getReturnObject());
+        if(!chk){
+            adapter.cancel(true);
+            System.out.println(adapter.getStatus());
+
+            adapter=null;
+        }
     }
 
     private class IOAdapter extends AsyncTask<IOObject, Void, Boolean> {
@@ -160,6 +166,7 @@ public class IOObject extends Application {
                 chk = true;
 
             } catch (Exception e) {
+                chk=false;
                 e.printStackTrace();
             }
             return chk;

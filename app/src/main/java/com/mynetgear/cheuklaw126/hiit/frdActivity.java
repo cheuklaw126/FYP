@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import org.json.JSONObject;
 
@@ -35,7 +34,7 @@ public class frdActivity extends AppCompatActivity {
         });
 
         frdListView = (ListView) findViewById(R.id.frdList);
-        global = (Global) getIntent().getSerializableExtra("global");
+        global = (Global) getApplicationContext();
 
         global.SetFrdList(global.UserName);
         frdList = global.fdList;

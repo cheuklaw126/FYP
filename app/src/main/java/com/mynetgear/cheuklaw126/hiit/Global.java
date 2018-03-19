@@ -20,24 +20,33 @@ import java.util.concurrent.ExecutionException;
  * Created by Kenneth on 27/2/2018.
  */
 
-public class Global extends Application implements Serializable  {
-    public String UserName, pw, FirstName, LastName,src;
+public class Global extends Application implements Serializable {
+    public String UserName, pw, FirstName, LastName, src;
     public int Uid;
-    IOObject io;
-    ArrayList<JSONObject> fdList;
+    public IOObject io;
+    public ArrayList<JSONObject> fdList;
+
     public Global() {
     }
 
     public String LastLoginTIme;
 
-public void SetImage(ImageView bmImage,String url){
-    new DownloadImageTask(bmImage).execute(url);
+    public void SetImage(ImageView bmImage, String url) {
+        DownloadImageTask dt=   new DownloadImageTask(bmImage);
+        dt.execute(url);
+while (true){
+    if(dt.bmImage!=null){
+        break;
+    }
 }
 
+   //     dt.cancel(true);
+
+    }
 
 
     public Global(int uid, String userName, String pw, String firstName, String lastName, String lastLoginTIme) {
-        Uid=uid;
+        Uid = uid;
         UserName = userName;
         this.pw = pw;
         FirstName = firstName;
@@ -46,25 +55,29 @@ public void SetImage(ImageView bmImage,String url){
 
     }
 
-    public void SetFrdList(String uid){
-fdList.clear();
-        String query = String.format("SELECT * FROM fdList join pData on fdList.uid = pData.uid where uid='%s'",uid);
+    public void SetFrdList(String uid) {
+        if (fdList != null) {
+
+            fdList.clear();
+        } else {
+
+        }
+        String query = String.format("SELECT * FROM fdList join pData on fdList.uid = pData.uid where uid='%s'", uid);
         final ArrayList<String> querys = new ArrayList<String>();
         querys.add(query);
         try {
             io = new IOObject("ExecuteReader", querys);
             io.Start();
-            JSONObject jobj = io.getReturnObject();
+            //     JSONObject jobj = io.getReturnObject();
             JSONArray jsonArray = io.getReturnObject().getJSONArray("data");
 
-            for (int a=0;a<jsonArray.length();a++){
-                JSONObject data=     jsonArray.getJSONObject(a);
+            for (int a = 0; a < jsonArray.length(); a++) {
+                JSONObject data = jsonArray.getJSONObject(a);
                 fdList.add(data);
             }
-            }
-            catch (Exception ex){
-
-            }
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
     }
 
 
@@ -76,7 +89,7 @@ fdList.clear();
         try {
             io = new IOObject("ExecuteReader", querys);
             io.Start();
-            JSONObject jobj = io.getReturnObject();
+            //    JSONObject jobj = io.getReturnObject();
             JSONArray jsonArray = io.getReturnObject().getJSONArray("data");
 
             if (jsonArray.length() > 0) {
@@ -97,9 +110,9 @@ fdList.clear();
         return false;
     }
 
-    public void GetExerciseHistory(int uid){
+    public void GetExerciseHistory(int uid) {
 
-        String query = String.format("select * from exeriseHistory where uID =%s ",uid);
+        String query = String.format("select * from exeriseHistory where uID =%s ", uid);
         final ArrayList<String> querys = new ArrayList<String>();
         querys.add(query);
         try {
@@ -107,41 +120,38 @@ fdList.clear();
             io.Start();
             JSONObject jobj = io.getReturnObject();
             JSONArray jsonArray = io.getReturnObject().getJSONArray("data");
-            JSONObject eh=jsonArray.getJSONObject(0);
+            JSONObject eh = jsonArray.getJSONObject(0);
             String lastD = eh.getString("createDate");
-            String lastT= eh.getString("totTime");
+            String lastT = eh.getString("totTime");
             String cc = eh.getString("caloriesCal");
             String hr = eh.getString("heartRate");
             String eg = eh.getString("exGain");
             String com = eh.getString("isComplete");
             String vid = eh.getString("vid");
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public void GetVideo(int vid){
+    public void GetVideo(int vid) {
 
-        String queryV = String.format("select * from movie where vid =%s ",vid);
+        String queryV = String.format("select * from movie where vid =%s ", vid);
 
         final ArrayList<String> queryvs = new ArrayList<String>();
         queryvs.add(queryV);
-        try{
-        io = new IOObject("ExecuteReader", queryvs);
-        io.Start();
-        JSONObject vjobj = io.getReturnObject();
-        JSONArray vjsonArray =io.getReturnObject().getJSONArray("data");
-        JSONObject veh=vjsonArray.getJSONObject(0);
-        String vn = veh.getString("vname");
-        String link = veh.getString("link");
-        String desc= veh.getString("description");
-        }
-        catch (Exception ex){
+        try {
+            io = new IOObject("ExecuteReader", queryvs);
+            io.Start();
+            JSONObject vjobj = io.getReturnObject();
+            JSONArray vjsonArray = io.getReturnObject().getJSONArray("data");
+            JSONObject veh = vjsonArray.getJSONObject(0);
+            String vn = veh.getString("vname");
+            String link = veh.getString("link");
+            String desc = veh.getString("description");
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-
 
 
     public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -168,8 +178,6 @@ fdList.clear();
             bmImage.setImageBitmap(result);
         }
     }
-
-
 
 
 }
