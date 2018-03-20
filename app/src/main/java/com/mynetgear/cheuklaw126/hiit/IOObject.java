@@ -95,23 +95,13 @@ private AsyncTask.Status IOStatus;
     }
 
     protected void Start() throws ExecutionException, InterruptedException {
-        IOAdapter adapter = (IOAdapter) new IOAdapter();
-        Boolean chk = true;
-        while (chk){
-            if(adapter.execute(this).get()){
-                chk=false;
-            }
-        }
-        this.setReturnObject(adapter.getReturnObject());
-        if(!chk){
-            adapter.cancel(true);
-            System.out.println(adapter.getStatus());
+//        IOAdapter adapter = (IOAdapter) new IOAdapter();
 
-            adapter=null;
-        }
+        this.setReturnObject( new IOAdapter().execute(this).get());
+
     }
 
-    private class IOAdapter extends AsyncTask<IOObject, Void, Boolean> {
+    private class IOAdapter extends AsyncTask<IOObject, Void, JSONObject> {
         private Context context;
         private JSONObject ReturnObject;
         public JSONObject getReturnObject() {
@@ -131,10 +121,10 @@ private AsyncTask.Status IOStatus;
         }
 
         @Override
-        protected Boolean doInBackground(IOObject... obj) {
+        protected JSONObject doInBackground(IOObject... obj) {
             this.context = obj[0].getContext();
             Boolean chk = false;
-
+            JSONObject jobj;
             BufferedReader reader = null;
             publishProgress();
             try {
@@ -160,16 +150,20 @@ private AsyncTask.Status IOStatus;
                     lines = new String(lines.getBytes(), "utf-8");
                     sb.append(lines);
                 }
-                this.setReturnObject(new JSONObject(sb.toString()));
+
+                jobj  = new JSONObject(sb.toString());
+              //  this.setReturnObject(new JSONObject(sb.toString()));
                 conn.disconnect();
                 reader.close();
                 chk = true;
 
             } catch (Exception e) {
                 chk=false;
+                jobj = new JSONObject();
+
                 e.printStackTrace();
             }
-            return chk;
+            return jobj;
         }
 
         @Override
@@ -178,7 +172,7 @@ private AsyncTask.Status IOStatus;
         }
 
         @Override
-        protected void onPostExecute(Boolean chk) {
+        protected void onPostExecute(JSONObject chk) {
             super.onPostExecute(chk);
         }
 
