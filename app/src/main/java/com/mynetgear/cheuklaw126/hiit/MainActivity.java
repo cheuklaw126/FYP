@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
         global = (Global) getApplicationContext();
         vdo = (VideoView) findViewById(R.id.videoView2);
         Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.bg2);
@@ -54,6 +55,9 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -125,14 +129,14 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-      //  Fragment fragment = null;
+        Fragment fragment = null;
         Class currentClass;
       /* View fd  = (View)findViewById(R.id.frd);
         View indexView  = (View)findViewById(R.id.index);
         fd.setVisibility(View.INVISIBLE);
        indexView.setVisibility(View.INVISIBLE);*/
-        Intent intent = new Intent();
-     //   intent.putExtra("global", global);
+       Intent intent = new Intent();
+      //  intent.putExtra("global", global);
 
         switch (id) {
             case R.id.frd:
@@ -167,10 +171,10 @@ public class MainActivity extends AppCompatActivity
 
         }
 */
-     //   item.setChecked(true);
-      //  setTitle(item.getTitle());
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-       // drawer.closeDrawer(GravityCompat.START);
+        item.setChecked(true);
+        setTitle(item.getTitle());
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
