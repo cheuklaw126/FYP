@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
             db.execSQL("DROP TABLE if exists noex;");
             db.execSQL("CREATE TABLE IF NOT EXISTS videolist(vid int PRIMARY KEY , vname text, vlink text,vdesc text);");    //Create tables
             db.execSQL("CREATE TABLE IF NOT EXISTS exlist(elid INTEGER PRIMARY KEY AUTOINCREMENT, uid int, vid int, lastD text, lastT text, cc text, hr text, eg text, com text);");
-            db.execSQL("CREATE TABLE IF NOT EXISTS noex(noofex int);");
+            db.execSQL("CREATE TABLE IF NOT EXISTS noex(noofex int,getvid int);");
             db.close();
 
         }catch (SQLException e){
@@ -223,7 +223,7 @@ try {
     }
 
     public void GetExerciseHistory(int uid){
-        int vid;
+        int vid,getvid;
         int compEx;
         String lastD, lastT, cc, hr, eg, com;
         String query = String.format("select * from exeriseHistory where uID =%s ",uid);
@@ -239,9 +239,17 @@ try {
             JSONObject jobj = io.getReturnObject();
             JSONArray jsonArray = io.getReturnObject().getJSONArray("data");
                 System.out.println("jsonArray = "+jsonArray.length());
+            db.execSQL("DELETE FROM exlist");
+            db.execSQL("DELETE FROM videoList");
+            db.execSQL("DELETE FROM noex");
+            db.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = 'exlist'");
             if (jsonArray.length() > 0) {
                 compEx=jsonArray.length();
-                db.execSQL("INSERT INTO noex VALUES ("+compEx+");");
+                System.out.println("in mainActivity compEX = "+compEx);
+                JSONObject gvid=jsonArray.getJSONObject(compEx-1);
+                getvid= gvid.getInt("vid");
+                System.out.println("INSERT INTO noex VALUES ("+compEx+", "+getvid+");");
+                db.execSQL("INSERT INTO noex VALUES ("+compEx+", "+getvid+");");
                 System.out.println("compEx = "+compEx);
                 for(int i=0; i<compEx; i++) {
                     JSONObject eh = jsonArray.getJSONObject(i);
@@ -254,9 +262,9 @@ try {
                     vid = eh.getInt("vid");
                     String query111=("INSERT INTO exlist (uid, vid, lastD, lastT, cc, hr, eg, com) VALUES ("+uid+ ", "+vid+", '"+lastD+"', '"+lastT+"', '"+cc+"', '"+hr+"', '"+eg+"', '"+com+"');");
                     System.out.println("query111 = "+query111);
-                    db.execSQL("DELETE FROM exlist");
-                    db.execSQL("INSERT INTO exlist (uid, vid, lastD, lastT, cc, hr, eg, com) VALUES ("+uid+ ", "+vid+", '"+lastD+"', '"+lastT+"', '"+cc+"', '"+hr+"', '"+eg+"', '"+com+"');");
 
+                    db.execSQL("INSERT INTO exlist (uid, vid, lastD, lastT, cc, hr, eg, com) VALUES ("+uid+ ", "+vid+", '"+lastD+"', '"+lastT+"', '"+cc+"', '"+hr+"', '"+eg+"', '"+com+"');");
+                    System.out.println("compEx = "+compEx);
                     GetVideo(vid);
                 }
             }else{
@@ -270,6 +278,7 @@ try {
     }
     public void GetVideo(int vid){
         String vn,link,desc;
+        int allvideo=0;
         SQLiteDatabase db = SQLiteDatabase.openDatabase("/data/data/com.mynetgear.cheuklaw126.hiit/hiitDB", null, SQLiteDatabase.OPEN_READWRITE); //open DB file
 
         String queryV = String.format("select * from movie where vid =%s ",vid);
@@ -281,14 +290,21 @@ try {
             io.Start();
             JSONObject vjobj = io.getReturnObject();
             JSONArray vjsonArray =io.getReturnObject().getJSONArray("data");
-            JSONObject veh=vjsonArray.getJSONObject(0);
+
+            System.out.println(" getvideo allvideo = "+allvideo);
+            if (vjsonArray.length() > 0) {
+                allvideo=vjsonArray.length();
+            }
+            System.out.println(" getvideo allvideo = "+allvideo);
+            for(int i=0; i<allvideo; i++) {
+            JSONObject veh=vjsonArray.getJSONObject(i);
 
             vn = veh.getString("vname");
             link = veh.getString("link");
             desc= veh.getString("description");
-            db.execSQL("DELETE FROM videoList");
+System.out.println("INSERT INTO videolist VALUES ("+vid+" , '"+vn+"', '"+link+"', '"+desc+"');");
             db.execSQL("INSERT INTO videolist VALUES ("+vid+" , '"+vn+"', '"+link+"', '"+desc+"');");
-        }
+        }}
         catch (Exception ex){
             ex.printStackTrace();
         }

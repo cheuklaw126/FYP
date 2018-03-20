@@ -38,7 +38,9 @@ public class YouTubeContent {
     static {
         VideoList vl = new VideoList();
 
-        System.out.println("v1.getLINK = " + vl.getLINK() + " vl.getDESC =" + vl.getDESC());
+
+
+    System.out.println("v1.getLINK = " + vl.getLINK() + "  vl.getDESC =" + vl.getDESC() +" v1.getcount = "+vl.getcount());
         addItem(new YouTubeVideo(vl.getLINK(), vl.getDESC()));
     }
 
