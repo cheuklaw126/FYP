@@ -165,14 +165,14 @@ try {
     switch (id) {
 
         case R.id.frd:
-            intent.putExtra("global", global);
+            //intent.putExtra("global", global);
             intent.setClass(MainActivity.this, frdActivity.class);
             break;
         case R.id.nav_gallery:
 
             GetExerciseHistory(global.Uid);
 
-            intent.setClass(MainActivity.this, HistoryPage.class);
+    //        intent.setClass(MainActivity.this, HistoryPage.class);
             break;
         default:
             break;
