@@ -36,9 +36,6 @@
             android:label="@string/title_activity_frd"
             android:theme="@style/AppTheme" />
         <activity android:name=".ExercisePage" />
-
-
-    <activity android:name=".HistoryPage" />
     </application>
 
 </manifest>

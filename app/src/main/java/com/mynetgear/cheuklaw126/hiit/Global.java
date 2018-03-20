@@ -72,28 +72,31 @@ public class Global extends Application implements Serializable  {
 
     }
 
-    public void SetFrdList(String uid){
+    public void SetFrdList(String uname){
+if(fdList!=null) {
+    fdList.clear();
+}else{
+    fdList = new ArrayList<JSONObject>();
+}
 
-        fdList.clear();
-
-fdList.clear();
-
-        String query = String.format("SELECT * FROM fdList join pData on fdList.uid = pData.uid where uid='%s'",uid);
+        String query = String.format("SELECT * FROM fdList join pData on fdList.uname = pData.uname where fdList.uname='%s'",uname);
         final ArrayList<String> querys = new ArrayList<String>();
         querys.add(query);
         try {
             io = new IOObject("ExecuteReader", querys);
             io.Start();
-            JSONObject jobj = io.getReturnObject();
+            //     JSONObject jobj = io.getReturnObject();
             JSONArray jsonArray = io.getReturnObject().getJSONArray("data");
+            if (jsonArray.length() > 0) {
+                for (int a = 0; a < jsonArray.length(); a++) {
+                    JSONObject data = jsonArray.getJSONObject(a);
+                    fdList.add(data);
+                }
 
-            for (int a=0;a<jsonArray.length();a++){
-                JSONObject data=     jsonArray.getJSONObject(a);
-                fdList.add(data);
             }
         }
         catch (Exception ex){
-
+System.out.println(ex);
         }
     }
 
