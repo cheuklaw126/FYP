@@ -160,10 +160,12 @@ try {
        indexView.setVisibility(View.INVISIBLE);*/
 
     Intent intent = new Intent();
-    intent.putExtra("global", global);
+
 
     switch (id) {
+
         case R.id.frd:
+            intent.putExtra("global", global);
             intent.setClass(MainActivity.this, frdActivity.class);
             break;
         case R.id.nav_gallery:
@@ -179,9 +181,6 @@ try {
 } catch (Exception e) {
     e.printStackTrace();
 }
-
-        Intent intent = new Intent();
-        intent.putExtra("global", global);
 
 
 
@@ -255,6 +254,7 @@ try {
                     vid = eh.getInt("vid");
                     String query111=("INSERT INTO exlist (uid, vid, lastD, lastT, cc, hr, eg, com) VALUES ("+uid+ ", "+vid+", '"+lastD+"', '"+lastT+"', '"+cc+"', '"+hr+"', '"+eg+"', '"+com+"');");
                     System.out.println("query111 = "+query111);
+                    db.execSQL("DELETE FROM exlist");
                     db.execSQL("INSERT INTO exlist (uid, vid, lastD, lastT, cc, hr, eg, com) VALUES ("+uid+ ", "+vid+", '"+lastD+"', '"+lastT+"', '"+cc+"', '"+hr+"', '"+eg+"', '"+com+"');");
 
                     GetVideo(vid);
@@ -271,7 +271,7 @@ try {
     public void GetVideo(int vid){
         String vn,link,desc;
         SQLiteDatabase db = SQLiteDatabase.openDatabase("/data/data/com.mynetgear.cheuklaw126.hiit/hiitDB", null, SQLiteDatabase.OPEN_READWRITE); //open DB file
-        //db.execSQL("DELETE FROM videoList");
+
         String queryV = String.format("select * from movie where vid =%s ",vid);
 
         final ArrayList<String> queryvs = new ArrayList<String>();
@@ -286,6 +286,7 @@ try {
             vn = veh.getString("vname");
             link = veh.getString("link");
             desc= veh.getString("description");
+            db.execSQL("DELETE FROM videoList");
             db.execSQL("INSERT INTO videolist VALUES ("+vid+" , '"+vn+"', '"+link+"', '"+desc+"');");
         }
         catch (Exception ex){

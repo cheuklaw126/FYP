@@ -13,7 +13,6 @@ package com.mynetgear.cheuklaw126.hiit;
         import android.support.v4.app.ListFragment;
         import android.view.View;
         import android.widget.Button;
-        import android.widget.ListAdapter;
         import android.widget.ListView;
         import android.widget.TextView;
         import android.widget.Toast;
@@ -45,11 +44,10 @@ public class HistoryPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history_page);
         if(getIntent().hasExtra("x")){
-           getx=getIntent().getIntExtra("x",0);
+          getx=getIntent().getIntExtra("x",0);
            System.out.println(" getx = "+getx);
         }
         final Button previousVideo = (Button) findViewById(R.id.previousVideo);
-
         Button nextVideo = (Button) findViewById(R.id.nextVideo);
         ///global = (Global) getIntent().getSerializableExtra("global");
         db = SQLiteDatabase.openDatabase("/data/data/com.mynetgear.cheuklaw126.hiit/hiitDB", null, SQLiteDatabase.OPEN_READWRITE); //Create DB file
@@ -57,6 +55,7 @@ public class HistoryPage extends AppCompatActivity {
         Cursor cursor1 = db.rawQuery("SELECT * from noex;", null);
         while(cursor1.moveToNext()){
             noex=cursor1.getInt(cursor1.getColumnIndex("noofex"));
+            System.out.println("in while noex = "+noex);
         }
         if(getx==0) {
             System.out.println(" noex = "+noex);
@@ -69,9 +68,7 @@ public class HistoryPage extends AppCompatActivity {
             public void onClick(View v) {
             if (noex>0){
                 ListFragment listFragment= new VideoListFragment();
-
-
-
+                
                previousVideo.setVisibility(View.VISIBLE);
                previousVideo.setClickable(true);
             //x=global.compEx-1;
@@ -83,8 +80,7 @@ public class HistoryPage extends AppCompatActivity {
                Intent intent = new Intent();
                intent.putExtra("x", x);
                intent.setClass(HistoryPage.this, HistoryPage.class);
-
-              listFragment.getListView().invalidateViews();
+             listFragment.getListView().invalidateViews();
                 startActivity(intent);
             }
                 // TODO Auto-generated method stub

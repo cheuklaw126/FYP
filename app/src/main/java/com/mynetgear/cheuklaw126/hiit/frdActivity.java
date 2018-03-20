@@ -38,13 +38,13 @@ public class frdActivity extends AppCompatActivity {
 
         global.SetFrdList(global.UserName);
         frdList = global.fdList;
-        listView = (ListView) findViewById(R.id.ListFrd);
+        //listView = (ListView) findViewById(R.id.ListFrd);
 
 
 
 
 
-        listView.setAdapter(new frdAdapter(this,frdList));
+        //listView.setAdapter(new frdAdapter(this,frdList));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
