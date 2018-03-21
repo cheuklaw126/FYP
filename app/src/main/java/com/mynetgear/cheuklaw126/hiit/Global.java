@@ -1,20 +1,8 @@
 package com.mynetgear.cheuklaw126.hiit;
 
 import android.app.Application;
-
 import android.content.Context;
-import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.text.TextUtils;
-import android.widget.Toast;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import android.os.AsyncTask;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -26,14 +14,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
-import android.util.Log;
-import android.widget.ImageView;
-import java.io.InputStream;
-import java.io.Serializable;
 
 /**
  * Created by Kenneth on 27/2/2018.
@@ -79,7 +62,7 @@ if(fdList!=null) {
     fdList = new ArrayList<JSONObject>();
 }
 
-        String query = String.format("SELECT * FROM fdList join pData on fdList.uname = pData.uname where fdList.uname='%s'",uname);
+        String query = String.format("SELECT pData.*  FROM fdList ,pData where fdList.funame= pData.uname and fdList.uname='%s'",uname);
         final ArrayList<String> querys = new ArrayList<String>();
         querys.add(query);
         try {

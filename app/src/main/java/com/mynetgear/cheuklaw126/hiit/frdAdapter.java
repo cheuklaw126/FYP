@@ -20,22 +20,24 @@ public class frdAdapter extends BaseAdapter {
 
     private LayoutInflater contextView;
     private ArrayList<JSONObject> frds;
-
+    private  Global global;
     private class ViewHolder {
         TextView tvLastName;
         TextView tvUid;
         ImageView imageView;
-
+        Global global;
         public ViewHolder(TextView tvLastName, TextView tvUid, ImageView imageView) {
             this.tvLastName = tvLastName;
             this.tvUid = tvUid;
             this.imageView = imageView;
+
         }
     }
 
-    public frdAdapter(Context context, ArrayList<JSONObject> frds) {
+    public frdAdapter(Context context, ArrayList<JSONObject> frds,Global global) {
         contextView = LayoutInflater.from(context);
         this.frds = frds;
+        this.global=global;
     }
 
     @Override
@@ -62,6 +64,7 @@ public class frdAdapter extends BaseAdapter {
                     (TextView) view.findViewById(R.id.uid), (ImageView) view.findViewById(R.id.src));
 
             view.setTag(holder);
+
         } else
             holder = (ViewHolder) view.getTag();
 
@@ -73,6 +76,7 @@ public class frdAdapter extends BaseAdapter {
             holder.tvLastName.setText(String.valueOf(frds.get(i).getString("uname")));
             holder.tvUid.setText(frds.get(i).getString("lastName").toString());
             String src = frds.get(i).getString("src").toString();
+            global.SetImage(holder.imageView,src);
 //holder.imageView
 
 
