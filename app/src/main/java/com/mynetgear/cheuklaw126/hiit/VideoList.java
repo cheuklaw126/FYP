@@ -11,6 +11,7 @@ public class VideoList {
     SQLiteDatabase db;
    public String LINK;
     public String DESC;
+    public int getcount, GVID;
     public  String getDESC() {
         return DESC;
     }
@@ -21,6 +22,9 @@ public class VideoList {
         return LINK;
     }
 
+    public int getcount() {
+        return getcount;
+    }
 
     public void setLINK(String LINK) {
         this.LINK = LINK;
@@ -30,38 +34,45 @@ public class VideoList {
         this.DESC = DESC;
     }
 
+    public void setCount(int getcount) {
+        this.getcount = getcount;
+    }
+
     public VideoList() {
 
         System.out.println("Enter to get db videolist!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         db = SQLiteDatabase.openDatabase("/data/data/com.mynetgear.cheuklaw126.hiit/hiitDB", null, SQLiteDatabase.OPEN_READWRITE); //Create DB file
-        Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-
-        if (c.moveToFirst()) {
-            while ( !c.isAfterLast() ) {
-                System.out.println("Table Name=> "+c.getString(0));
-                c.moveToNext();
+            System.out.println("SELECT getvid from noex;");
+        try {
+            Cursor cursor = db.rawQuery("SELECT getvid from noex;", null);
+            while(cursor.moveToNext()) {
+                GVID = cursor.getInt(cursor.getColumnIndex("getvid"));
             }
-        }
-        Cursor cc = db.rawQuery("SELECT COUNT() from videolist;", null);
-        if(cc.getCount()>0){
-            System.out.println(">0 = "+cc.getCount());
-        }
-        Cursor cursor = db.rawQuery("SELECT * from videolist;", null);
+            System.out.println("SELECT * from videolist WHERE vid=" + GVID + ";");
+            Cursor cursor1 = db.rawQuery("SELECT * from videolist WHERE vid=" + GVID + ";", null);
 
-        if (cursor.getCount() > 0) {
+        if (cursor1.getCount() > 0) {
             System.out.println("Sucess get data from videolist!!!!!!!!!!!!!! INSIDE VIDEOLIST!!!!");
-            System.out.println("Count = " + cursor.getCount());
+            System.out.println("Count = " + cursor1.getCount());
+            getcount=cursor1.getCount();
+            setCount(getcount);
+
+        while (cursor1.moveToNext()) {
+            System.out.println("in while getdata ");
+            LINK = cursor1.getString(cursor1.getColumnIndex("vlink"));
+            DESC = cursor1.getString(cursor1.getColumnIndex("vdesc"));
+
+            setLINK(LINK);
+            setDESC(DESC);
+
+            System.out.println("inside videolist " + LINK + "  " + DESC);
+        }
         } else {
             System.out.println("No data get from videolist!!!!!!!!!!!!!!INSIDE VIDEOLIST!!!!");
             System.out.println("Count = " + cursor.getCount());
         }
-        while (cursor.moveToNext()) {
-             LINK = cursor.getString(cursor.getColumnIndex("vlink"));
-            DESC = cursor.getString(cursor.getColumnIndex("vdesc"));
-            setLINK(LINK);
-            setDESC(DESC);
-
-System.out.println("inside videolist " + LINK+"  "+DESC);
+        }catch(Exception e) {
+                e.printStackTrace();
 
         }
     }

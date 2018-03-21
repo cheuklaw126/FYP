@@ -21,8 +21,8 @@ import static android.content.Context.MODE_PRIVATE;
 public class YouTubeContent {
     //SQLiteDatabase db;
     Global global;
-    public static String LINK;
-    public static String DESC;
+    public  String LINK;
+    public  String DESC;
    SQLiteDatabase db = SQLiteDatabase.openDatabase("/data/data/com.mynetgear.cheuklaw126.hiit/hiitDB", null, SQLiteDatabase.OPEN_READONLY); //Create DB file
 
     /**
@@ -38,7 +38,9 @@ public class YouTubeContent {
     static {
         VideoList vl = new VideoList();
 
-        System.out.println("v1.getLINK = " + vl.getLINK() + " vl.getDESC =" + vl.getDESC());
+
+
+    System.out.println("v1.getLINK = " + vl.getLINK() + "  vl.getDESC =" + vl.getDESC() +" v1.getcount = "+vl.getcount());
         addItem(new YouTubeVideo(vl.getLINK(), vl.getDESC()));
     }
 
@@ -85,8 +87,8 @@ public class YouTubeContent {
             System.out.println("Count = " + cursor.getCount());
         }
         while (cursor.moveToNext()) {
-            final String LINK = cursor.getString(cursor.getColumnIndex("link"));
-            final String DESC = cursor.getString(cursor.getColumnIndex("desc"));
+             String LINK = cursor.getString(cursor.getColumnIndex("link"));
+           String DESC = cursor.getString(cursor.getColumnIndex("desc"));
             addItem(new YouTubeVideo(LINK, DESC));
 
         }
