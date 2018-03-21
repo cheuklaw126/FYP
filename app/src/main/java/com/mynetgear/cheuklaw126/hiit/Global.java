@@ -22,16 +22,17 @@ import java.util.concurrent.ExecutionException;
  * Created by Kenneth on 27/2/2018.
  */
 
-public class Global extends Application implements Serializable  {
+public class Global extends Application implements Serializable {
 
-    public String UserName, pw, FirstName, LastName,src;
+    public String UserName, pw, FirstName, LastName, src;
     public int Uid, vid, compEx;
     public String lastD, lastT, cc, hr, eg, com;
     public static String vn, link, desc;
     public static Context contextOfApplication;
 
+
     IOObject io;
-    ArrayList<JSONObject> fdList;
+    ArrayList<JSONObject> fdList, fdRequestList;
 
     public Global() {
     }
@@ -39,14 +40,13 @@ public class Global extends Application implements Serializable  {
     public String LastLoginTIme;
 
 
-    public void SetImage(ImageView bmImage,String url){
+    public void SetImage(ImageView bmImage, String url) {
         new DownloadImageTask(bmImage).execute(url);
     }
 
 
-
     public Global(int uid, String userName, String pw, String firstName, String lastName, String lastLoginTIme) {
-        Uid=uid;
+        Uid = uid;
         UserName = userName;
         this.pw = pw;
         FirstName = firstName;
@@ -55,14 +55,14 @@ public class Global extends Application implements Serializable  {
 
     }
 
-    public void SetFrdList(String uname){
-if(fdList!=null) {
-    fdList.clear();
-}else{
-    fdList = new ArrayList<JSONObject>();
-}
+    public void SetFrdList(String uname) {
+        if (fdList != null) {
+            fdList.clear();
+        } else {
+            fdList = new ArrayList<JSONObject>();
+        }
 
-        String query = String.format("SELECT pData.*  FROM fdList ,pData where fdList.funame= pData.uname and fdList.uname='%s'",uname);
+        String query = String.format("SELECT pData.*  FROM fdList ,pData where fdList.funame= pData.uname and fdList.uname='%s'", uname);
         final ArrayList<String> querys = new ArrayList<String>();
         querys.add(query);
         try {
@@ -77,13 +77,37 @@ if(fdList!=null) {
                 }
 
             }
-        }
-        catch (Exception ex){
-System.out.println(ex);
+        } catch (Exception ex) {
+            System.out.println(ex);
         }
     }
 
+    public void SetFrdRequestList(String uname) {
+        if (fdRequestList != null) {
+            fdRequestList.clear();
+        } else {
+            fdRequestList = new ArrayList<JSONObject>();
+        }
 
+        String query = String.format("SELECT pData.*  FROM fdRequestList ,pData where fdRequestList.funame= pData.uname and fdRequestList.uname='%s'", uname);
+        final ArrayList<String> querys = new ArrayList<String>();
+        querys.add(query);
+        try {
+            io = new IOObject("ExecuteReader", querys);
+            io.Start();
+            //     JSONObject jobj = io.getReturnObject();
+            JSONArray jsonArray = io.getReturnObject().getJSONArray("data");
+            if (jsonArray.length() > 0) {
+                for (int a = 0; a < jsonArray.length(); a++) {
+                    JSONObject data = jsonArray.getJSONObject(a);
+                    fdRequestList.add(data);
+                }
+
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
     public boolean ChkAccExit(String id) {
 
         String query = String.format("select * from pData where uname ='%s'", id);
@@ -113,12 +137,12 @@ System.out.println(ex);
         return false;
     }
 
-    public void GetExerciseHistory(int uid, int x){
+    public void GetExerciseHistory(int uid, int x) {
         int xindex;
-        String query = String.format("select * from exeriseHistory where uID =%s ",uid);
+        String query = String.format("select * from exeriseHistory where uID =%s ", uid);
         final ArrayList<String> querys = new ArrayList<String>();
         querys.add(query);
-        compEx=0;
+        compEx = 0;
         try {
             io = new IOObject("ExecuteReader", querys);
             io.Start();
@@ -126,51 +150,49 @@ System.out.println(ex);
             JSONArray jsonArray = io.getReturnObject().getJSONArray("data");
 
             if (jsonArray.length() > 0) {
-                compEx=jsonArray.length();
-                if (x!=0){
-                    xindex=x;
-                }else{
-                    xindex=compEx-1;
+                compEx = jsonArray.length();
+                if (x != 0) {
+                    xindex = x;
+                } else {
+                    xindex = compEx - 1;
                 }
-            JSONObject eh=jsonArray.getJSONObject(x);
-            lastD = eh.getString("createDate");
-            lastT= eh.getString("totTime");
-            cc = eh.getString("caloriesCal");
-            hr = eh.getString("heartRate");
-            eg = eh.getString("exGain");
-            com = eh.getString("isComplete");
-            vid = eh.getInt("vid");
+                JSONObject eh = jsonArray.getJSONObject(x);
+                lastD = eh.getString("createDate");
+                lastT = eh.getString("totTime");
+                cc = eh.getString("caloriesCal");
+                hr = eh.getString("heartRate");
+                eg = eh.getString("exGain");
+                com = eh.getString("isComplete");
+                vid = eh.getInt("vid");
 
-            }else{
-                compEx=0;
+            } else {
+                compEx = 0;
             }
 
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public void GetVideo(int vid){
+    public void GetVideo(int vid) {
         SQLiteDatabase db = SQLiteDatabase.openDatabase("/data/data/com.mynetgear.cheuklaw126.hiit/hiitDB", null, SQLiteDatabase.OPEN_READWRITE); //open DB file
         db.execSQL("DELETE FROM videoList");
-        String queryV = String.format("select * from movie where vid =%s ",vid);
+        String queryV = String.format("select * from movie where vid =%s ", vid);
 
         final ArrayList<String> queryvs = new ArrayList<String>();
         queryvs.add(queryV);
-        try{
-        io = new IOObject("ExecuteReader", queryvs);
-        io.Start();
-        JSONObject vjobj = io.getReturnObject();
-        JSONArray vjsonArray =io.getReturnObject().getJSONArray("data");
-        JSONObject veh=vjsonArray.getJSONObject(0);
+        try {
+            io = new IOObject("ExecuteReader", queryvs);
+            io.Start();
+            JSONObject vjobj = io.getReturnObject();
+            JSONArray vjsonArray = io.getReturnObject().getJSONArray("data");
+            JSONObject veh = vjsonArray.getJSONObject(0);
 
-        vn = veh.getString("vname");
-        link = veh.getString("link");
-        desc= veh.getString("description");
-        db.execSQL("INSERT INTO videolist VALUES ("+vid+" , '"+vn+"', '"+link+"', '"+desc+"');");
-        }
-        catch (Exception ex){
+            vn = veh.getString("vname");
+            link = veh.getString("link");
+            desc = veh.getString("description");
+            db.execSQL("INSERT INTO videolist VALUES (" + vid + " , '" + vn + "', '" + link + "', '" + desc + "');");
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -200,8 +222,6 @@ System.out.println(ex);
             bmImage.setImageBitmap(result);
         }
     }
-
-
 
 
 }
