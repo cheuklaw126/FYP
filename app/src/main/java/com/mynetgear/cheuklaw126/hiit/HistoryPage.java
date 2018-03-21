@@ -27,7 +27,7 @@ package com.mynetgear.cheuklaw126.hiit;
         import java.util.List;
         import org.json.JSONArray;
         import org.json.JSONObject;
-
+        import android.view.View.OnClickListener;
         import java.util.ArrayList;
 
 
@@ -89,6 +89,8 @@ public class HistoryPage extends AppCompatActivity {
                intent.putExtra("x", x);
                intent.setClass(HistoryPage.this, HistoryPage.class);
                try {
+
+                   getFragmentManager().popBackStack();
                    //la.notifyDataSetChanged();
                    //listFragment.getListView().invalidateViews();
                    startActivity(intent);

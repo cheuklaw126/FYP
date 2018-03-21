@@ -172,7 +172,7 @@ try {
 
             GetExerciseHistory(global.Uid);
 
-    //        intent.setClass(MainActivity.this, HistoryPage.class);
+          intent.setClass(MainActivity.this, HistoryPage.class);
             break;
         default:
             break;
