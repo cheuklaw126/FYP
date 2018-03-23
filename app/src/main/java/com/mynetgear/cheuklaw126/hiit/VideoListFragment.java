@@ -1,20 +1,15 @@
 package com.mynetgear.cheuklaw126.hiit;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
-import android.support.v4.app.SupportActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-
-import com.mynetgear.cheuklaw126.hiit.YouTubeContent;
-import com.mynetgear.cheuklaw126.hiit.YouTubeFragment;
 import com.google.android.youtube.player.YouTubeIntents;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
+
+//import com.mynetgear.cheuklaw126.hiit.YouTubeFragment;
 
 
 public class VideoListFragment extends ListFragment {
