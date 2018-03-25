@@ -7,6 +7,14 @@
     android:fitsSystemWindows="true"
     tools:context="com.mynetgear.cheuklaw126.hiit.frdActivity">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_action_user_add" />
+
     <TabHost
         android:id="@+id/tab_host"
         android:layout_width="match_parent"

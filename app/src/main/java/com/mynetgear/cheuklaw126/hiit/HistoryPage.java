@@ -1,34 +1,17 @@
 package com.mynetgear.cheuklaw126.hiit;
 
 
-        import android.app.FragmentTransaction;
-        import android.content.SharedPreferences;
-        import android.database.Cursor;
-        import android.database.sqlite.SQLiteDatabase;
-        import android.support.v4.app.Fragment;
-        import android.support.v7.app.AppCompatActivity;
-        import android.content.Context;
         import android.content.Intent;
-        import android.os.Bundle;
-        import android.support.v4.app.ListFragment;
-        import android.view.View;
-        import android.widget.ArrayAdapter;
-        import android.widget.Button;
-        import android.widget.ListView;
-        import android.widget.TextView;
-        import android.widget.Toast;
-        import com.mynetgear.cheuklaw126.hiit.VideoListFragment;
-        import com.mynetgear.cheuklaw126.hiit.LoginActivity;
-        import com.mynetgear.cheuklaw126.hiit.YouTubeContent;
-        import com.mynetgear.cheuklaw126.hiit.YouTubeFragment;
-        import com.google.android.youtube.player.YouTubeIntents;
-        import com.google.android.youtube.player.YouTubeStandalonePlayer;
-        import java.util.ArrayList;
-        import java.util.List;
-        import org.json.JSONArray;
-        import org.json.JSONObject;
-        import android.view.View.OnClickListener;
-        import java.util.ArrayList;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+//  import com.mynetgear.cheuklaw126.hiit.YouTubeFragment;
 
 
 public class HistoryPage extends AppCompatActivity {

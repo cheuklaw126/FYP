@@ -1,6 +1,7 @@
 package com.mynetgear.cheuklaw126.hiit;
 
 import android.content.Context;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,24 +21,33 @@ public class frdAdapter extends BaseAdapter {
 
     private LayoutInflater contextView;
     private ArrayList<JSONObject> frds;
-    private  Global global;
+    private Global global;
+    public int tabNo;
+    public int CurrentIndex;
+
     private class ViewHolder {
         TextView tvLastName;
         TextView tvUid;
         ImageView imageView;
-        Global global;
-        public ViewHolder(TextView tvLastName, TextView tvUid, ImageView imageView) {
+        FloatingActionButton fab;
+        int index;
+
+        public ViewHolder(TextView tvLastName, TextView tvUid, ImageView imageView, FloatingActionButton fab, int index) {
             this.tvLastName = tvLastName;
             this.tvUid = tvUid;
             this.imageView = imageView;
-
+            this.fab = fab;
+            this.index = index;
         }
     }
 
-    public frdAdapter(Context context, ArrayList<JSONObject> frds,Global global) {
+
+    public frdAdapter(Context context, ArrayList<JSONObject> frds, Global global, int tabNo) {
+        this.tabNo = tabNo;
         contextView = LayoutInflater.from(context);
+        System.out.println(contextView.getContext().toString());
         this.frds = frds;
-        this.global=global;
+        this.global = global;
     }
 
     @Override
@@ -56,28 +66,73 @@ public class frdAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, final ViewGroup viewGroup) {
         ViewHolder holder = null;
         if (view == null) {
             view = contextView.inflate(R.layout.fdrow, null);
             holder = new ViewHolder((TextView) view.findViewById(R.id.LastName),
-                    (TextView) view.findViewById(R.id.uid), (ImageView) view.findViewById(R.id.src));
+                    (TextView) view.findViewById(R.id.uid), (ImageView) view.findViewById(R.id.src), (FloatingActionButton) view.findViewById(R.id.fb1), i);
 
             view.setTag(holder);
-
         } else
             holder = (ViewHolder) view.getTag();
 
         try {
-
-
-            //frds.get(i).getString("");
-            // Member member = members.get(i);
             holder.tvLastName.setText(String.valueOf(frds.get(i).getString("uname")));
             holder.tvUid.setText(frds.get(i).getString("lastName").toString());
             String src = frds.get(i).getString("src").toString();
-            global.SetImage(holder.imageView,src);
-//holder.imageView
+            int position = i;
+            global.SetImage(holder.imageView, src);
+
+
+            CurrentIndex = i;
+
+            switch (tabNo) {
+                case 1:
+                    holder.fab.setImageResource(R.drawable.delete);
+                    holder.fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+
+                                String funame = frds.get(i).getString("funame");
+                                boolean chk = global.RemoveFrd(global.UserName,funame);
+                                if (chk) {
+                                    frds.remove(i);
+                                    notifyDataSetChanged();
+
+
+                                }
+
+                            } catch (Exception ex) {
+
+                            }
+                        }
+                    });
+                    break;
+                case 2:
+
+
+                case 3:
+                    holder.fab.setImageResource(R.drawable.ic_action_user_add);
+                    holder.fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                            //    String uname = frds.get(i).getString("uname");
+                                global.AcceptFrd(global.UserName);
+                                frds.remove(i);
+                                notifyDataSetChanged();
+
+                            } catch (Exception ex) {
+
+                            }
+
+
+                        }
+                    });
+
+            }
 
 
         } catch (Exception ex) {

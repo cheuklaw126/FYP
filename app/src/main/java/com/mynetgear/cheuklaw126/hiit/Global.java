@@ -32,7 +32,7 @@ public class Global extends Application implements Serializable {
 
 
     IOObject io;
-    ArrayList<JSONObject> fdList, fdRequestList;
+    ArrayList<JSONObject> fdList, fdRequestList, nearlyByList;
 
     public Global() {
     }
@@ -55,14 +55,152 @@ public class Global extends Application implements Serializable {
 
     }
 
-    public void SetFrdList(String uname) {
+    public void SetNearlybyList(String uname) {
+        if (nearlyByList != null) {
+            nearlyByList.clear();
+        } else {
+            nearlyByList = new ArrayList<JSONObject>();
+        }
+
+        String query = String.format("SELECT pData.* ,fdList.funame FROM fdList ,pData where fdList.funame= pData.uname and fdList.uname='%s'", uname);
+        final ArrayList<String> querys = new ArrayList<String>();
+        querys.add(query);
+        try {
+            io = new IOObject("ExecuteReader", querys);
+            io.Start();
+            //     JSONObject jobj = io.getReturnObject();
+            JSONArray jsonArray = io.getReturnObject().getJSONArray("data");
+            if (jsonArray.length() > 0) {
+                for (int a = 0; a < jsonArray.length(); a++) {
+                    JSONObject data = jsonArray.getJSONObject(a);
+                    nearlyByList.add(data);
+                }
+
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+
+
+    public void  AcceptFrd(String frdName){
+        ArrayList<String> querys = new ArrayList<String>();
+        String query = String.format("delete fdRequestList where uname='%s';",this.UserName);
+        querys.add(query);
+        try {
+            io = new IOObject("ExecuteNonQuery", querys);
+            io.Start();
+            JSONObject jsonObject = io.getReturnObject();
+            int effectRows = jsonObject.getInt("EffectRows");
+            if (effectRows == 1) {
+            } else {
+            }
+        }
+        catch (Exception ex){
+
+        }
+
+        querys = new ArrayList<String>();
+
+        query = String.format("insert into fdList  values('%s','%s',GETDATE()));", this.UserName, frdName);
+        querys.add(query);
+        try {
+            io = new IOObject("ExecuteNonQuery", querys);
+            io.Start();
+            JSONObject jsonObject = io.getReturnObject();
+            int effectRows = jsonObject.getInt("EffectRows");
+            if (effectRows == 1) {
+            } else {
+            }
+        }
+         catch (Exception ex){
+
+        }
+
+    }
+
+
+
+
+    public boolean RemoveFrd(String uname,String funame) {
+        String query = String.format("delete fdList where uname='%s'  and funame='%s';", uname,funame);
+        ArrayList<String> querys = new ArrayList<String>();
+        querys.add(query);
+        try {
+            io = new IOObject("ExecuteNonQuery", querys);
+            io.Start();
+            JSONObject jsonObject = io.getReturnObject();
+            int effectRows = jsonObject.getInt("EffectRows");
+            if (effectRows == 1) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (Exception ex) {
+            return false;
+
+        }
+    }
+
+
+    public boolean AddFrd(String frdUname){
+
+        String myUserName= this.UserName;
+        String frdUserName = frdUname;
+
+
+        String query = String.format("select  * from pdata where uname = '%s' ;",frdUserName);
+        ArrayList<String> querys = new ArrayList<String>();
+        querys.add(query);
+
+        try {
+            io = new IOObject("ExecuteReader", querys);
+            io.Start();
+            //     JSONObject jobj = io.getReturnObject();
+            JSONArray jsonArray = io.getReturnObject().getJSONArray("data");
+            if (jsonArray.length() > 0) {
+
+
+                query = String.format("if NOT EXISTS (select * from fdRequestList where uname='%s' and funame='%s')  insert into fdRequestList values('%s','%s')  ;", frdUname, this.UserName, frdUname, this.UserName);
+
+                querys = new ArrayList<String>();
+                querys.add(query);
+
+                io = new IOObject("ExecuteNonQuery", querys);
+                io.Start();
+                JSONObject jsonObject = io.getReturnObject();
+                int effectRows = jsonObject.getInt("EffectRows");
+                if (effectRows == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            else{
+
+                return false;
+            }
+
+        } catch (Exception ex) {
+            return false;
+
+        }
+
+
+
+    }
+
+
+
+    public void SetFrdList() {
         if (fdList != null) {
             fdList.clear();
         } else {
             fdList = new ArrayList<JSONObject>();
         }
 
-        String query = String.format("SELECT pData.*  FROM fdList ,pData where fdList.funame= pData.uname and fdList.uname='%s'", uname);
+        String query = String.format("SELECT pData.* ,fdList.funame  FROM fdList ,pData where fdList.funame= pData.uname and (fdList.uname='%s'    or fdList.funame='%s');", this.UserName,this.UserName);
         final ArrayList<String> querys = new ArrayList<String>();
         querys.add(query);
         try {
@@ -82,14 +220,14 @@ public class Global extends Application implements Serializable {
         }
     }
 
-    public void SetFrdRequestList(String uname) {
+    public void SetFrdRequestList() {
         if (fdRequestList != null) {
             fdRequestList.clear();
         } else {
             fdRequestList = new ArrayList<JSONObject>();
         }
 
-        String query = String.format("SELECT pData.*  FROM fdRequestList ,pData where fdRequestList.funame= pData.uname and fdRequestList.uname='%s'", uname);
+        String query = String.format("SELECT pData.*  FROM fdRequestList ,pData where fdRequestList.funame= pData.uname and fdRequestList.uname='%s'", this.UserName);
         final ArrayList<String> querys = new ArrayList<String>();
         querys.add(query);
         try {
@@ -108,6 +246,40 @@ public class Global extends Application implements Serializable {
             System.out.println(ex);
         }
     }
+
+    public boolean ChkFrdExit(String id){
+
+        String query = String.format("select * from fdlist where (uname ='%s' and funame='%s')   or (uname ='%s' and funame='%s')  ", this.UserName,id,id,this.UserName);
+        final ArrayList<String> querys = new ArrayList<String>();
+        querys.add(query);
+        try {
+            io = new IOObject("ExecuteReader", querys);
+            io.Start();
+            JSONObject jobj = io.getReturnObject();
+            JSONArray jsonArray = io.getReturnObject().getJSONArray("data");
+
+            if (jsonArray.length() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+
+
+
+
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
     public boolean ChkAccExit(String id) {
 
         String query = String.format("select * from pData where uname ='%s'", id);
