@@ -8,14 +8,16 @@ public class History {
     private int vid;
     private int uid;
     private String c_date;
+    private String eg;
     private String complete;
     private String vname;
 
-    public History(int eid, int vid, int uid, String c_date, String complete, String vname) {
+    public History(int eid, int vid, int uid, String c_date,String eg, String complete, String vname) {
         setEid(eid);
         setVid(vid);
         setUid(uid);
         setC_date(c_date);
+        setEg(eg);
         setComplete(complete);
         setVname(vname);
 
@@ -48,6 +50,10 @@ public class History {
     public void setC_date(String c_date) {
         this.c_date = c_date;
     }
+
+    public String getEg() { return eg; }
+
+    public void setEg(String eg) {this.eg = eg;}
 
     public String getComplete() {
         return complete;

@@ -178,22 +178,7 @@
 
         android:padding="3dp">
 
-        <Button
-            android:id="@+id/previousVideo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_alignParentLeft="true"
-            android:text="PREVIOUS exercise" />
 
-        <Button
-            android:id="@+id/nextVideo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="right"
-
-            android:text="NEXT exercise" />
     </RelativeLayout>
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -203,6 +188,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp"
+        android:layout_gravity="bottom"
         tools:context=".VideoListActivity"
         tools:layout="@android:layout/list_content" />
 

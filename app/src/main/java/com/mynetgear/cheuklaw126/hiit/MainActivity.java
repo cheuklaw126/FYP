@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
             db.execSQL("DROP TABLE if exists noex;");
             db.execSQL("CREATE TABLE IF NOT EXISTS videolist(vid int PRIMARY KEY , vname text, vlink text,vdesc text);");    //Create tables
             db.execSQL("CREATE TABLE IF NOT EXISTS exlist(elid INTEGER PRIMARY KEY AUTOINCREMENT, uid int, vid int, lastD text, lastT text, cc text, hr text, eg text, com text);");
-            db.execSQL("CREATE TABLE IF NOT EXISTS noex(noofex int,getvid int);");
+            db.execSQL("CREATE TABLE IF NOT EXISTS noex(getvid int);");
             db.close();
 
         }catch (SQLException e){
@@ -172,7 +172,7 @@ try {
 
             GetExerciseHistory(global.Uid);
 
-          intent.setClass(MainActivity.this, HistoryPage.class);
+          intent.setClass(MainActivity.this, HistoryList.class);
             break;
         default:
             break;
@@ -248,8 +248,8 @@ try {
                 System.out.println("in mainActivity compEX = "+compEx);
                 JSONObject gvid=jsonArray.getJSONObject(compEx-1);
                 getvid= gvid.getInt("vid");
-                System.out.println("INSERT INTO noex VALUES ("+compEx+", "+getvid+");");
-                db.execSQL("INSERT INTO noex VALUES ("+compEx+", "+getvid+");");
+                //System.out.println("INSERT INTO noex VALUES ("+compEx+", "+getvid+");");
+                //db.execSQL("INSERT INTO noex VALUES ("+compEx+", "+getvid+");");
                 System.out.println("compEx = "+compEx);
                 for(int i=0; i<compEx; i++) {
                     JSONObject eh = jsonArray.getJSONObject(i);
@@ -278,11 +278,12 @@ try {
     }
     public void GetVideo(int vid){
         String vn,link,desc;
+        int videoid=vid;
         int allvideo=0;
         SQLiteDatabase db = SQLiteDatabase.openDatabase("/data/data/com.mynetgear.cheuklaw126.hiit/hiitDB", null, SQLiteDatabase.OPEN_READWRITE); //open DB file
 
-        String queryV = String.format("select * from movie where vid =%s ",vid);
-
+        String queryV = String.format("select * from movie where vid =%s ",videoid);
+        System.out.println("queryV = "+queryV);
         final ArrayList<String> queryvs = new ArrayList<String>();
         queryvs.add(queryV);
         try{

@@ -14,5 +14,7 @@ tools:context="com.mynetgear.cheuklaw126.hiit.HistoryList">
     android:id="@+id/hList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:divider="#FFCC00"
+    android:dividerHeight="4px"
     />
 </RelativeLayout>

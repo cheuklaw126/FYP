@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     io = new IOObject("ExecuteReader", querys);
                     io.Start();
-                   // JSONObject jobj = io.getReturnObject();
+                    //JSONObject jobj = io.getReturnObject();
                     JSONArray jsonArray = io.getReturnObject().getJSONArray("data");
                     JSONObject data = jsonArray.getJSONObject(0);
 

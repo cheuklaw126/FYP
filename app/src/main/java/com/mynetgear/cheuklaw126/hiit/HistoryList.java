@@ -38,14 +38,15 @@ public class HistoryList extends  AppCompatActivity {
     private ArrayList<History> historys;
     private ListView lvHistory;
     public String staff;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history_list);
-        staff=getIntent().getStringExtra("staffname");
-        getSupportActionBar().setDisplayShowCustomEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setTitle(staff);
+        //staff=getIntent().getStringExtra("staffname");
+        //getSupportActionBar().setDisplayShowCustomEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        //getSupportActionBar().setTitle(staff);
         setupData();
 
         lvHistory = (ListView) findViewById(R.id.hList);
@@ -54,9 +55,9 @@ public class HistoryList extends  AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 History m = historys.get(i);
-                String eid=Integer.toString(m.getEid());
-
-                System.out.println("getEid = " +eid);
+                String eid = Integer.toString(m.getEid());
+                setvid(eid);
+                System.out.println("getEid = " + eid);
                 Intent intent = new Intent();
                 intent.putExtra("eid", eid);
                 intent.setClass(HistoryList.this, HistoryPage.class);
@@ -66,35 +67,41 @@ public class HistoryList extends  AppCompatActivity {
     }
 
 
-   
-    public void setupData(){
-        orders = new ArrayList<Order>();
+    public void setupData() {
+        historys = new ArrayList<History>();
         try {
-            SQLiteDatabase db = SQLiteDatabase.openDatabase("/data/data/com.ive.assignment/assignmentDB", null, SQLiteDatabase.OPEN_READWRITE); //open DB file
-            Cursor cursor = db.rawQuery("Select j.*, c1.comName as c1comName, c1.comAddress as c1comAddress, c1.comPhone as c1comPhone, c2.comName as c2comName ,c2.comAddress as c2comAddress ,c2.comPhone as c2comPhone from Job as j \n" +
-                    "join Company as c1 on j.comFrom=c1.comNo join Company as c2 on j.comTo=c2.comNo;", null);
+            SQLiteDatabase db = SQLiteDatabase.openDatabase("/data/data/com.mynetgear.cheuklaw126.hiit/hiitDB", null, SQLiteDatabase.OPEN_READWRITE); //open DB file
+            Cursor cursor = db.rawQuery("select e.*, v.vname as vvname from exlist as e join videolist as v on e.vid=v.vid;", null);
 
             while (cursor.moveToNext()) {
-                orders.add(new Order(
-                        cursor.getInt(cursor.getColumnIndex("jobNo")),
-                        cursor.getString(cursor.getColumnIndex("comFrom")),
-                        cursor.getString(cursor.getColumnIndex("comTo")),
-                        cursor.getString(cursor.getColumnIndex("status")),
-                        cursor.getString(cursor.getColumnIndex("orderDateTime")),
-                        cursor.getString(cursor.getColumnIndex("pickupDateTime")),
-                        cursor.getString(cursor.getColumnIndex("deliveryDateTime")),
-                        cursor.getString(cursor.getColumnIndex("c1comName")),
-                        cursor.getString(cursor.getColumnIndex("c2comName")),
-                        cursor.getString(cursor.getColumnIndex("c1comAddress")),
-                        cursor.getString(cursor.getColumnIndex("c2comAddress")),
-                        cursor.getString(cursor.getColumnIndex("c1comPhone")),
-                        cursor.getString(cursor.getColumnIndex("c2comPhone"))
+                historys.add(new History(
+                        cursor.getInt(cursor.getColumnIndex("elid")),
+                        cursor.getInt(cursor.getColumnIndex("uid")),
+                        cursor.getInt(cursor.getColumnIndex("vid")),
+                        cursor.getString(cursor.getColumnIndex("lastD")),
+                        cursor.getString(cursor.getColumnIndex("eg")),
+                        cursor.getString(cursor.getColumnIndex("com")),
+                        cursor.getString(cursor.getColumnIndex("vvname"))
+
                 ));
             }
 
             db.close();
         } catch (SQLiteException e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
+    public void setvid(String eid) {
+        String thiseid = eid;
+
+        try {
+            SQLiteDatabase db = SQLiteDatabase.openDatabase("/data/data/com.mynetgear.cheuklaw126.hiit/hiitDB", null, SQLiteDatabase.OPEN_READWRITE); //open DB file
+            System.out.println("INSERT INTO noex VALUES (" + thiseid + ");");
+            db.execSQL("DELETE FROM noex");
+            db.execSQL("INSERT INTO noex VALUES (" + thiseid + ");");
+        } catch (SQLiteException e) {
+            e.printStackTrace();
         }
     }
 }
