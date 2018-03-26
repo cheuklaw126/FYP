@@ -26,6 +26,9 @@ public class IOObject extends Application {
     private ArrayList<String> querys;
     private JSONObject sendObject;
     private JSONObject ReturnObject;
+    public  Object obj;
+    public String FileType;
+    public String CreateUser;
 private AsyncTask.Status IOStatus;
     public IOObject() {
     }
@@ -136,7 +139,15 @@ private AsyncTask.Status IOStatus;
                 conn.setRequestProperty("Content-Type", "application/json");
                 sendObject = new JSONObject();
                 sendObject.put("action", obj[0].getAction());
-                sendObject.put("querys", new JSONArray(obj[0].getQuerys()));
+
+                if(obj[0].getAction()!="obj"){
+                    sendObject.put("querys", new JSONArray(obj[0].getQuerys()));
+                }
+           else{
+                    sendObject.put("obj", obj[0].obj);
+                    sendObject.put("CreateUser", obj[0].CreateUser);
+                    sendObject.put("FileType", obj[0].FileType);
+                }
                 conn.setRequestProperty("Content-Type", "application/json");
                 OutputStream os = conn.getOutputStream();
                 os.write(sendObject.toString().getBytes("utf-8"));

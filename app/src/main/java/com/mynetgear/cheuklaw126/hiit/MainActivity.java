@@ -1,12 +1,19 @@
 package com.mynetgear.cheuklaw126.hiit;
 
 
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -16,6 +23,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +35,8 @@ import android.widget.VideoView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -35,7 +45,8 @@ public class MainActivity extends AppCompatActivity
     IOObject io;
     Global global;
     VideoView vdo;
-
+    private static int IMG_RESULT = 1;
+    private String picPath = null;
     SQLiteDatabase db;
 
     ImageView pIcon;
@@ -106,7 +117,6 @@ public class MainActivity extends AppCompatActivity
             // super.onBackPressed();
         }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -118,10 +128,87 @@ public class MainActivity extends AppCompatActivity
         lastname.setText(global.LastName);
         pIcon = (ImageView) findViewById(R.id.pIcon);
 
+        pIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, IMG_RESULT);
+            }
+        });
+
+
         global.SetImage(pIcon, global.src);
 
         return true;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode== Activity.RESULT_OK)
+        {
+
+            /**
+             * 当选择的图片不为空的话，在获取到图片的途径
+             */
+            Uri uri = data.getData();
+            Log.e("uploadImage", "uri = "+ uri);
+            try {
+                String[] pojo = {MediaStore.Images.Media.DATA};
+
+                CursorLoader cursorLoader = new CursorLoader(this, uri, null, null, null, null);
+                Cursor  cursor = cursorLoader.loadInBackground();
+                if(cursor!=null)
+                {
+                    ContentResolver cr = this.getContentResolver();
+                    int colunm_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    cursor.moveToFirst();
+                    String path = cursor.getString(colunm_index);
+                                if(path.endsWith("jpg")||path.endsWith("png"))
+                    {
+                        picPath = path;
+                        Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+                        File file = new File(picPath);
+
+                        byte[] fileByte = global.loadFile(file);
+                     String enc64 =  android.util.Base64.encodeToString(fileByte, android.util.Base64.DEFAULT);
+                        FileInputStream fileInputStream = new FileInputStream(file);
+                        io = new IOObject("obj",  new ArrayList<String>());
+                        io.obj = enc64;
+if(path.endsWith("jpg")){
+
+    io.FileType="jpg";
+}else{
+    io.FileType="png";
+}
+
+
+
+
+
+                        io.CreateUser = global.UserName;
+                        io.Start();
+
+
+                       // imageView.setImageBitmap(bitmap);
+                    }else{
+
+                        //??
+
+                    }
+                }else{
+
+                    ///???
+
+                }
+
+            } catch (Exception e) {
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
