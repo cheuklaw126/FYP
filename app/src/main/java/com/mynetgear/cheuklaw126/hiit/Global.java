@@ -174,38 +174,39 @@ public class Global extends Application implements Serializable {
         String myUserName= this.UserName;
         String frdUserName = frdUname;
 
-
-        String query = String.format("select  * from pdata where uname = '%s' ;",frdUserName);
+if(!this.ChkAccExit(frdUname))
+{
+    return false;
+}
+        String query = "";
         ArrayList<String> querys = new ArrayList<String>();
-        querys.add(query);
 
         try {
-            io = new IOObject("ExecuteReader", querys);
-            io.Start();
+
             //     JSONObject jobj = io.getReturnObject();
             JSONArray jsonArray = io.getReturnObject().getJSONArray("data");
-            if (jsonArray.length() > 0) {
 
 
-                query = String.format("if NOT EXISTS (select * from fdRequestList where uname='%s' and funame='%s')  insert into fdRequestList values('%s','%s')  ;", frdUname, this.UserName, frdUname, this.UserName);
+            querys = new ArrayList<String>();
 
-                querys = new ArrayList<String>();
+            query=String.format("delete fdRequestList where  uname='%s' and funame ='%s' ",frdUserName.toLowerCase(),myUserName.toLowerCase());
+            querys.add(query);
+
+                query = String.format("  insert into fdRequestList values('%s','%s')  ;",  frdUname, this.UserName);
+
+
                 querys.add(query);
 
                 io = new IOObject("ExecuteNonQuery", querys);
                 io.Start();
                 JSONObject jsonObject = io.getReturnObject();
                 int effectRows = jsonObject.getInt("EffectRows");
-                if (effectRows == 1) {
+                if (effectRows >0) {
                     return true;
                 } else {
                     return false;
                 }
-            }
-            else{
 
-                return false;
-            }
 
         } catch (Exception ex) {
             return false;
@@ -275,7 +276,7 @@ public class Global extends Application implements Serializable {
     public boolean ChkFrdExit(String id){
 
         String query = String.format("select * from fdlist where (uname ='%s' and funame='%s')   or (uname ='%s' and funame='%s')  ", this.UserName,id,id,this.UserName);
-        final ArrayList<String> querys = new ArrayList<String>();
+         ArrayList<String> querys = new ArrayList<String>();
         querys.add(query);
         try {
             io = new IOObject("ExecuteReader", querys);
