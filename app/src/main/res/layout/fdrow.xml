@@ -15,8 +15,9 @@
         <ImageView
             android:id="@+id/src"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
+            android:pivotX="10%"
+            android:pivotY="10%"
             android:layout_gravity="left"
             android:src="@drawable/logo"
             tools:ignore="ContentDescription" />

@@ -119,8 +119,8 @@ public class frdAdapter extends BaseAdapter {
                         @Override
                         public void onClick(View v) {
                             try {
-                            //    String uname = frds.get(i).getString("uname");
-                                global.AcceptFrd(global.UserName);
+                                String funame = frds.get(i).getString("funame");
+                                global.AcceptFrd(funame);
                                 frds.remove(i);
                                 notifyDataSetChanged();
 

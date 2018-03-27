@@ -172,7 +172,7 @@ public int index;
 
 
 if(!global.ChkFrdExit(userInputValue)){
-    chk = global.AddFrd(userInputValue);
+    chk = global.AddFrd(userInputValue.toLowerCase());
 
                         }
 else{

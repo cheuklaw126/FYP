@@ -52,9 +52,7 @@ public class StartActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK) {
             Uri videoUri = intent.getData();
 
-            VideoView videoView3 = (VideoView)findViewById(R.id.videoView3);
 
-            videoView3.setVideoURI(videoUri);
         }
     }
 }

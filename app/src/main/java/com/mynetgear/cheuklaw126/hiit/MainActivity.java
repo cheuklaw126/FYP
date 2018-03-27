@@ -216,6 +216,8 @@ if(path.endsWith("jpg")){
                 }
 
             } catch (Exception e) {
+                System.out.println(e.toString());
+
             }
         }
 

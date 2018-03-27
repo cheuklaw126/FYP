@@ -85,8 +85,15 @@ public class Global extends Application implements Serializable {
         }
     }
     public  byte[] loadFile(File file) throws IOException {
-        InputStream is = new FileInputStream(file);
+        InputStream is=null;
+        try {
+             is = new FileInputStream(file);
+        }
+        catch (Exception e)
+        {
 
+            System.out.println(e.toString());
+        }
         long length = file.length();
         if (length > Integer.MAX_VALUE) {
             // File is too large
@@ -111,6 +118,7 @@ public class Global extends Application implements Serializable {
     public void  AcceptFrd(String frdName){
         ArrayList<String> querys = new ArrayList<String>();
         String query = String.format("delete fdRequestList where uname='%s';",this.UserName);
+
         querys.add(query);
         try {
             io = new IOObject("ExecuteNonQuery", querys);
@@ -127,7 +135,7 @@ public class Global extends Application implements Serializable {
 
         querys = new ArrayList<String>();
 
-        query = String.format("insert into fdList  values('%s','%s',GETDATE()));", this.UserName, frdName);
+        query = String.format("insert into fdList  values('%s','%s',GETDATE());", this.UserName.toLowerCase(), frdName.toLowerCase());
         querys.add(query);
         try {
             io = new IOObject("ExecuteNonQuery", querys);
@@ -148,7 +156,7 @@ public class Global extends Application implements Serializable {
 
 
     public boolean RemoveFrd(String uname,String funame) {
-        String query = String.format("delete fdList where uname='%s'  and funame='%s';", uname,funame);
+        String query = String.format("delete fdList where (uname='%s'  and funame='%s') or (uname='%s'  and funame='%s');", uname.toLowerCase(),funame.toLowerCase(),funame.toLowerCase(),uname.toLowerCase());
         ArrayList<String> querys = new ArrayList<String>();
         querys.add(query);
         try {
@@ -226,7 +234,7 @@ if(!this.ChkAccExit(frdUname))
             fdList = new ArrayList<JSONObject>();
         }
 
-        String query = String.format("SELECT pData.* ,fdList.funame  FROM fdList ,pData where fdList.funame= pData.uname and (fdList.uname='%s'    or fdList.funame='%s');", this.UserName,this.UserName);
+        String query = String.format("SELECT pData.* ,fdList.funame  FROM fdList ,pData where fdList.funame= pData.uname and (fdList.uname='%s'    or fdList.funame='%s');", this.UserName.toLowerCase(),this.UserName.toLowerCase());
         final ArrayList<String> querys = new ArrayList<String>();
         querys.add(query);
         try {
@@ -275,7 +283,7 @@ if(!this.ChkAccExit(frdUname))
 
     public boolean ChkFrdExit(String id){
 
-        String query = String.format("select * from fdlist where (uname ='%s' and funame='%s')   or (uname ='%s' and funame='%s')  ", this.UserName,id,id,this.UserName);
+        String query = String.format("select * from fdlist where (uname ='%s' and funame='%s')   or (uname ='%s' and funame='%s')  ", this.UserName,id.toLowerCase(),id.toLowerCase(),this.UserName);
          ArrayList<String> querys = new ArrayList<String>();
         querys.add(query);
         try {
@@ -308,7 +316,7 @@ if(!this.ChkAccExit(frdUname))
 
     public boolean ChkAccExit(String id) {
 
-        String query = String.format("select * from pData where uname ='%s'", id);
+        String query = String.format("select * from pData where uname ='%s'", id.toLowerCase());
         final ArrayList<String> querys = new ArrayList<String>();
         querys.add(query);
         try {
